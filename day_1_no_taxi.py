@@ -47,5 +47,5 @@ for command in commands:
     if revisited:
         break
 
-print('Distance from 0, 0 to {}, {} is: {}.'.format(x, y, x + y))
+print('Distance from 0, 0 to {}, {} is: {}.'.format(x, y, abs(x) + abs(y)))
 
