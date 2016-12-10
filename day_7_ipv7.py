@@ -5,21 +5,27 @@ filename = 'input_files/7.txt'
 with open(filename) as inputfile:
     addresses = inputfile.read().splitlines()
 
-abba_length = 4
+def n_length_substrings(s, n):
+    for i in range(len(s) - (n - 1)):
+        yield s[i:i+n]
 
-def is_abba(sequence):
-    for i in range(len(sequence) - (abba_length - 1)):
-        potential_abba = sequence[i:i+abba_length]
-        if (potential_abba[0] != potential_abba[1] and
-                potential_abba == potential_abba[::-1]):
-            return True
+def abas_and_babs(s):
+    for substr in n_length_substrings(s, 3):
+        if substr[0] == substr[-1] and substr[0] != substr[1]:
+            yield substr
 
-    return False
+def invert(s):
+    return ''.join([s[1], s[0], s[1]])
 
-def address_supports_tls(address):
+def address_supports_ssl(address):
+    supernet_seqs = re.split(r'\[\w+\]', address)
     hypernet_seqs = re.findall(r'\[(\w+)\]', address)
-    non_hypernet_seqs = re.split(r'\[\w+\]', address)
-    return (any(is_abba(seq) for seq in non_hypernet_seqs) and
-        not any(is_abba(seq) for seq in hypernet_seqs))
 
-print(sum(address_supports_tls(address) for address in addresses))
+    abas = set(aba for s in supernet_seqs for aba in abas_and_babs(s))
+    babs = set(aba for s in hypernet_seqs for aba in abas_and_babs(s))
+
+    return any((invert(bab) in abas) for bab in babs)
+
+print(len(addresses))
+print(sum(address_supports_ssl(address) for address in addresses))
+
