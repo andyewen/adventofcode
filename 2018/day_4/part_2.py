@@ -2,6 +2,8 @@
 import re
 from collections import defaultdict
 
+guard_line_re = re.compile(r'Guard #(\d+)')
+
 with open('input.txt') as fp:
     lines = list(fp)
 
@@ -15,7 +17,7 @@ for l in lines:
     minute = int(l[15:17])
     message = l[19:-1]
 
-    m = re.match(r'Guard #(\d+)', message)
+    m = guard_line_re.match(message)
     if m:
         current_guard = int(m.group(1))
     elif message == 'falls asleep':
