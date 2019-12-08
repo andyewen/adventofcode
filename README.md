@@ -1,3 +1,3 @@
 # Advent of Code!
 
-Working through the advent of code challenges.
+Working through the [Advent of Code](https://adventofcode.com/) challenges.
