@@ -1,5 +1,6 @@
 import math
 
+
 def count_tree_collisions(dx, dy):
     with open('input.txt') as f:
         trees_hit = 0
@@ -11,6 +12,7 @@ def count_tree_collisions(dx, dy):
             trees_hit += int(line[x_pos] == '#')
             x_pos = (x_pos + dx) % len(line)
     return trees_hit
+
 
 angles = [
     (1, 1),
