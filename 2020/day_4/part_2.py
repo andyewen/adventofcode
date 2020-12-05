@@ -38,8 +38,7 @@ def is_field_valid(field, value):
 
 
 def is_passport_valid(passport):
-    # Passport finished.
-    passport_fields = set(current_passport.keys())
+    passport_fields = set(passport.keys())
     if not passport_fields >= required_fields:
         return False
     for key, value in passport.items():
