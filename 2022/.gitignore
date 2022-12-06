@@ -1,3 +1,6 @@
 # Ignore executables.
 */part_1
 */part_2
+*/part_*.exe
+
+*.pdb

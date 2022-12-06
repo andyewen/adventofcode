@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 
-#[derive(Debug)]
+#[derive(Debug, Eq, PartialEq)]
 enum Throw {
     Rock,
     Paper,
@@ -26,11 +26,31 @@ fn string_to_throw(s: &str) -> Throw {
     }
 }
 
+fn calc_round_score(round: &Round) -> i32 {
+    let mut result: i32 = match round.response {
+        Throw::Rock => 1,
+        Throw::Paper => 2,
+        Throw::Scissors => 3,
+    };
+    
+    if round.opponent == round.response {
+        // 1 for draw;
+        result += 3;
+    } else if 
+        (round.opponent == Throw::Rock && round.response == Throw::Paper)
+        || (round.opponent == Throw::Paper && round.response == Throw::Scissors)
+        || (round.opponent == Throw::Scissors && round.response == Throw::Rock)
+    {
+        result += 6
+    }
+    return result;
+}
+
 fn main() {
     let file = File::open("input.txt").unwrap();
     let lines = io::BufReader::new(file).lines();
 
-    let mut rounds = Vec::new();
+    let mut total_score = 0;
 
     for line_result in lines {
         let line = line_result.unwrap();
@@ -38,8 +58,12 @@ fn main() {
         let opp = string_to_throw(parts.next().unwrap());
         let res = string_to_throw(parts.next().unwrap());
 
-        rounds.push(Round { opponent: opp, response: res });
+        let round = Round { opponent: opp, response: res };
+        let round_score = calc_round_score(&round);
+
+        total_score += round_score;
+        // println!("{:?} -----> {:?}", round, round_score);
     }
 
-    println!("{:?}", rounds);
+    println!("{total_score}");
 }
