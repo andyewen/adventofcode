@@ -34,7 +34,6 @@ fn calc_round_score(round: &Round) -> i32 {
     };
     
     if round.opponent == round.response {
-        // 1 for draw;
         result += 3;
     } else if 
         (round.opponent == Throw::Rock && round.response == Throw::Paper)
