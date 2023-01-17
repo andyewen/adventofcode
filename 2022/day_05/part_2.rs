@@ -18,11 +18,10 @@ fn process_action_line(stacks: &mut Vec<String>, line: &str) {
     let src = words[3].parse::<usize>().unwrap() - 1;
     let dest = words[5].parse::<usize>().unwrap() - 1;
 
-    let src_stack = &mut stacks[src];
-    let dest_stack = &mut stacks[dest];
-    let range = src_stack.len() - qty as usize..;
-    dest_stack.push_str(&src_stack[range]);
-    src_stack.replace_range(range, "");
+    let length = stacks[src].len();
+    let chunk = String::from(&stacks[src][length - qty as usize..]);
+    stacks[dest].push_str(&chunk);
+    stacks[src].replace_range(length - qty as usize.., "");
 }
 
 fn main() {
