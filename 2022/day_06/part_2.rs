@@ -10,7 +10,7 @@ fn main() {
     let len = file_contents.len();
     for i in 0..len - CHUNK_SIZE {
         let chunk = &file_contents[i..i+CHUNK_SIZE];
-        let chunk_set: HashSet<char> = HashSet::from_iter(chunk.chars());
+        let chunk_set: HashSet<u8> = HashSet::from_iter(chunk.bytes());
 
         if chunk_set.len() == CHUNK_SIZE {
             println!("{}", i + CHUNK_SIZE);
