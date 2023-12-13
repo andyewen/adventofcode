@@ -12,15 +12,38 @@ async function main() {
         input: fs.createReadStream('input.txt'),
     });
 
+    let validGames = 0;
+
     for await (const line of rl) {
         const [game_label_text, rounds_text] = line.split(': ');
         const game_id = +game_label_text.split(' ')[1];
 
-        const rounds = rounds_text.split(';');
+        let gameValid = true;
+
+        const rounds = rounds_text.split('; ');
         for (const round of rounds) {
-            const han
+            const hands = round.split(', ');
+            const counter = {
+                'red': 0,
+                'green': 0,
+                'blue': 0,
+            };
+            for (const hand of hands) {
+                const [num_str, colour] = hand.split(' ');
+                counter[colour] += +num_str;
+            }
+
+            let roundValid = Object.entries(counter).every(([colour, num]) => num <= maximums[colour]);
+            if (!roundValid) {
+                gameValid = false;
+                break;
+            }
         }
+
+        if (gameValid) validGames += game_id;
     }
+
+    console.log(validGames);
 }
 
 main();
